@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yj.dao.SmbmsProviderDao">
+	<!-- 查询所有供应商信息-->
+	<select id="getAllProvider" resultType="SmbmsProvider">
+		select * from smbms_provider
+		<trim prefix="where" prefixOverrides="and | or">
+ 			<if test="proCode!=null and proCode!=''">and proCode like concat('%',#{proCode},'%')</if>
+ 			<if test="proName!=null and proName!=''">and proName like concat('%',#{proName},'%')</if>
+		</trim> 
+		 limit #{begin},#{size}
+	</select>
+	<select id="getAll" resultType="SmbmsProvider">
+		select * from smbms_provider
+	</select>
+	<!-- 根据id查询供应商信息-->
+	<select id="getProviderById" resultType="SmbmsProvider" parameterType="long">
+		select * from smbms_provider
+		where id = #{id}
+	</select>
+	<!-- 查询总行数-->
+	<select id="getCount" resultType="int">
+		select count(1) from smbms_provider
+		<trim prefix="where" prefixOverrides="and | or">
+ 			<if test="proCode!=null and proCode!=''">and proCode like concat('%',#{proCode},'%')</if>
+ 			<if test="proName!=null and proName!=''">and proName like concat('%',#{proName},'%')</if>
+		</trim> 
+	</select>
+	<!-- 新增供应商 -->
+	<insert id="addProvider" parameterType="SmbmsProvider">
+	INSERT INTO `smbms`.`smbms_provider` (
+		<trim suffixOverrides=",">
+		  		<if test="id != null and id != ''">id,</if>
+		  		<if test="proCode != null and proCode != ''">proCode,</if>
+		  		<if test="proName != null and proName != ''">proName,</if>
+		  		<if test="proDesc != null and proDesc != ''">proDesc,</if>
+		  		<if test="proContact != null and proContact != ''">proContact,</if>
+		  		<if test="proPhone != null and proPhone != ''">proPhone,</if>
+		  		<if test="proAddress != null and proAddress != ''">proAddress,</if>
+		  		<if test="proFax != null and proFax != ''">proFax,</if>
+		  		<if test="createdBy != null and createdBy != ''">createdBy,</if>
+		  		<if test="creationDate != null and creationDate != ''">creationDate,</if>
+		  		<if test="modifyDate != null and modifyDate != ''">modifyDate,</if>
+		  		<if test="modifyBy != null and modifyBy != ''">modifyBy,</if>
+		  		<if test="workPicPath != null and workPicPath != ''">workPicPath,</if>
+		  		<if test="orgaPicPath != null and orgaPicPath != ''">orgaPicPath,</if>
+		</trim>
+	) 
+	VALUES
+	  (
+	  	<trim suffixOverrides=",">
+		  		<if test="id != null and id != ''">#{id},</if>
+		  		<if test="proCode != null and proCode != ''">#{proCode},</if>
+		  		<if test="proName != null and proName != ''">#{proName},</if>
+		  		<if test="proDesc != null and proDesc != ''">#{proDesc},</if>
+		  		<if test="proContact != null and proContact != ''">#{proContact},</if>
+		  		<if test="proPhone != null and proPhone != ''">#{proPhone},</if>
+		  		<if test="proAddress != null and proAddress != ''">#{proAddress},</if>
+		  		<if test="proFax != null and proFax != ''">#{proFax},</if>
+		  		<if test="createdBy != null and createdBy != ''">#{createdBy},</if>
+		  		<if test="creationDate != null and creationDate != ''">#{creationDate},</if>
+		  		<if test="modifyDate != null and modifyDate != ''">#{modifyDate},</if>
+		  		<if test="modifyBy != null and modifyBy != ''">#{modifyBy},</if>
+		  		<if test="workPicPath != null and workPicPath != ''">#{workPicPath},</if>
+		  		<if test="orgaPicPath != null and orgaPicPath != ''">#{orgaPicPath},</if>
+		</trim>
+	  ) ;
+	</insert>
+	<!-- 修改供应商 -->
+	<update id="updateProvider" parameterType="SmbmsProvider">
+		UPDATE  `smbms`.`smbms_provider`  
+		<trim prefix="set" suffixOverrides="," suffix="where id= #{id}">
+			<if test="id != null and id != ''">id=#{id},</if>
+	  		<if test="proCode != null and proCode != ''">proCode=#{proCode},</if>
+	  		<if test="proName != null and proName != ''">proName=#{proName},</if>
+	  		<if test="proDesc != null and proDesc != ''">proDesc=#{proDesc},</if>
+	  		<if test="proContact != null and proContact != ''">proContact=#{proContact},</if>
+	  		<if test="proPhone != null and proPhone != ''">proPhone=#{proPhone},</if>
+	  		<if test="proAddress != null and proAddress != ''">proAddress=#{proAddress},</if>
+	  		<if test="proFax != null and proFax != ''">proFax=#{proFax},</if>
+	  		<if test="createdBy != null and createdBy != ''">createdBy=#{createdBy},</if>
+	  		<if test="creationDate != null and creationDate != ''">creationDate=#{creationDate},</if>
+	  		<if test="modifyDate != null and modifyDate != ''">modifyDate=#{modifyDate},</if>
+	  		<if test="modifyBy != null and modifyBy != ''">modifyBy=#{modifyBy},</if>
+		</trim>
+	</update>
+</mapper>

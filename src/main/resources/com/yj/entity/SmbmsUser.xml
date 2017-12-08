@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yj.dao.SmbmsUserDao">
+	<!-- 登录 -->
+	<select id="login" resultType="SmbmsUser" parameterType="SmbmsUser">
+		select * from smbms_user  
+		where userCode = #{userCode} and userPassword = #{userPassword}
+	</select>
+	<!-- 查询所有用户信息-->
+	<select id="getAllUser" resultType="SmbmsUser">
+		SELECT u.*,r.`roleName` FROM smbms_user u INNER JOIN smbms_role r ON u.`userRole`= r.`id`
+		<trim prefix="where" prefixOverrides="and | or">
+ 			<if test="userName!=null and userName!=''">and userName like concat('%',#{userName},'%')</if>
+ 			<if test="userRole!=null and userRole!= 0">and userRole = #{userRole}</if>
+		</trim> 
+		 limit #{begin},#{size}
+	</select>
+	<!-- 根据id查询用户信息-->
+	<select id="getUserById" resultType="SmbmsUser" parameterType="long">
+		SELECT u.*,r.`roleName` FROM smbms_user u INNER JOIN smbms_role r ON u.`userRole`= r.`id`
+		where u.id = #{id}
+	</select>
+	<!-- 查询总行数-->
+	<select id="getAllUserCount" resultType="int">
+		SELECT count(1) FROM smbms_user u INNER JOIN smbms_role r ON u.`userRole`= r.`id`
+		<trim prefix="where" prefixOverrides="and | or">
+ 			<if test="userName!=null and userName!=''">and userName like concat('%',#{userName},'%')</if>
+ 			<if test="userRole!=null and userRole!= 0">and userRole = #{userRole}</if>
+		</trim> 
+	</select>
+	<!-- 新增用户 -->
+	<insert id="addUser" parameterType="SmbmsUser">
+		INSERT INTO `smbms`.`smbms_user` (
+		 <trim suffixOverrides=",">
+		  		<if test="id != null and id != ''">id,</if>
+		  		<if test="userCode != null and userCode != ''">userCode,</if>
+		  		<if test="userName != null and userName != ''">userName,</if>
+		  		<if test="userPassword != null and userPassword != ''">userPassword,</if>
+		  		<if test="gender != null and gender != ''">gender,</if>
+		  		<if test="birthday != null and birthday != ''">birthday,</if>
+		  		<if test="phone != null and phone != ''">phone,</if>
+		  		<if test="address != null and address != ''">address,</if>
+		  		<if test="userRole != null and userRole != ''">userRole,</if>
+		  		<if test="createdBy != null and createdBy != ''">createdBy,</if>
+		  		<if test="creationDate != null and creationDate != ''">creationDate,</if>
+		  		<if test="modifyBy != null and modifyBy != ''">modifyBy,</if>
+		  		<if test="modifyDate != null and modifyDate != ''">modifyDate,</if>
+		  	</trim>
+		) 
+		VALUES
+		  (
+		  	<trim suffixOverrides=",">
+		  		<if test="id != null and id != ''">#{id},</if>
+		  		<if test="userCode != null and userCode != ''">#{userCode},</if>
+		  		<if test="userName != null and userName != ''">#{userName},</if>
+		  		<if test="userPassword != null and userPassword != ''">#{userPassword},</if>
+		  		<if test="gender != null and gender != ''">#{gender},</if>
+		  		<if test="birthday != null and birthday != ''">#{birthday},</if>
+		  		<if test="phone != null and phone != ''">#{phone},</if>
+		  		<if test="address != null and address != ''">#{address},</if>
+		  		<if test="userRole != null and userRole != ''">#{userRole},</if>
+		  		<if test="createdBy != null and createdBy != ''">#{createdBy},</if>
+		  		<if test="creationDate != null and creationDate != ''">#{creationDate},</if>
+		  		<if test="modifyBy != null and modifyBy != ''">#{modifyBy},</if>
+		  		<if test="modifyDate != null and modifyDate != ''">#{modifyDate},</if>
+		  	</trim>
+		  ) ;
+	</insert>
+	<!-- 修改用户 -->
+	<update id="updateUser" parameterType="SmbmsUser">
+		UPDATE `smbms`.`smbms_user` 
+		<trim prefix="set" suffixOverrides="," suffix="where id= #{id}">
+			<if test="id != null and id != ''">id = #{id},</if>
+		  		<if test="userCode != null and userCode != ''">userCode=#{userCode},</if>
+		  		<if test="userName != null and userName != ''">userName=#{userName},</if>
+		  		<if test="userPassword != null and userPassword != ''">userPassword=#{userPassword},</if>
+		  		<if test="gender != null and gender != ''">gender=#{gender},</if>
+		  		<if test="birthday != null and birthday != ''">birthday=#{birthday},</if>
+		  		<if test="phone != null and phone != ''">phone=#{phone},</if>
+		  		<if test="address != null and address != ''">address=#{address},</if>
+		  		<if test="userRole != null and userRole != ''">userRole=#{userRole},</if>
+		  		<if test="createdBy != null and createdBy != ''">createdBy=#{createdBy},</if>
+		  		<if test="creationDate != null and creationDate != ''">creationDate=#{creationDate},</if>
+		  		<if test="modifyBy != null and modifyBy != ''">modifyBy=#{modifyBy},</if>
+		  		<if test="modifyDate != null and modifyDate != ''">modifyDate=#{modifyDate},</if>
+		</trim>
+	</update>
+</mapper>
